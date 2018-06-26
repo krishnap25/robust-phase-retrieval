@@ -21,7 +21,8 @@ if __name__ == '__main__':
     X, y, Xt, yt = generate_dataset(args.cond, args.noise, n=n, nt=nt, d=d)
     # Params
     SEEDS = list(range(1))
-    INIT_SCALES = [1e-3, 1e-2, 1e-1]
+    # INIT_SCALES = [1e-3, 1e-2, 1e-1]
+    INIT_SCALES = [1e-3]
     INIT_LRS_SGD = [1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7]
     # INIT_LRS_SGD = [1e-4]
     LR_DECAYS = [0.0, 0.5, 0.6, 0.7, 0.8, 0.9]
@@ -62,7 +63,7 @@ if __name__ == '__main__':
                     except FloatingPointError as e:
                         print(e, param_dict)
                         continue
-    print('SGD time: ', time.time() - t1)
+    print('SGD time: ', time.time() - t1, flush=True)
 
     t1 = time.time()
     # SVRG
@@ -90,7 +91,7 @@ if __name__ == '__main__':
                                 pkl.dump([w, epochs, fs, fts, param_dict], fp)
                     except FloatingPointError:
                         continue
-    print('SVRG time: ', time.time() - t1)
+    print('SVRG time: ', time.time() - t1, flush=True)
 
 
     t1 = time.time()
@@ -109,7 +110,7 @@ if __name__ == '__main__':
                                 )
                                 rng = np.random.RandomState(seed)
                                 w0 = rng.randn(d) * init_scale
-                            param_dict = {'lr': lr, 'mu': mu,
+                                param_dict = {'lr': lr, 'mu': mu,
                                           'init_scale': init_scale,
                                           'num_inner_epochs': num_inner_epochs,
                                           'seed': seed, 'option': option,
@@ -121,5 +122,5 @@ if __name__ == '__main__':
                                     pkl.dump([w, epochs, fs, fts, param_dict], fp)
                         except FloatingPointError:
                             continue
-    print('SVRG time: ', time.time() - t1)
+    print('SVRG time: ', time.time() - t1, flush=True)
 
